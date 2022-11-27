@@ -65,8 +65,8 @@ class Defaults: ObservableObject {
     }
 
     func reset() {
-        token = ""
-        name = ""
+        token = nil
+        name = nil
         pro = false
         url = nil
         picture = nil

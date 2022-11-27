@@ -22,7 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         popover.delegate = self
         self.popover = popover
 
-        // Create the status item
         self.statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(NSStatusItem.variableLength))
 
         if let button = self.statusBarItem.button {
