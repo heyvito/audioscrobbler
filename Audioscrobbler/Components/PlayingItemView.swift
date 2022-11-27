@@ -28,9 +28,9 @@ struct PlayingItemView: View {
         let minutes = Int(value.truncatingRemainder(dividingBy: 3600) / 60)
         let seconds = Int(value.truncatingRemainder(dividingBy: 60))
 
-        if hours > 1 {
+        if hours >= 1 {
             return String(format: "%02d:%02d:%02d", hours, minutes, seconds);
-        } else if minutes > 1 {
+        } else if minutes >= 1 {
             return String(format: "%02d:%02d", minutes, seconds);
         } else {
             return String(format: "00:%02d", seconds);
