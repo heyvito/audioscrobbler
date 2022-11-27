@@ -161,12 +161,33 @@ class Watcher: ObservableObject {
             changes()
         }
     }
+
+    func reset() {
+        DispatchQueue.main.sync {
+            if currentTrackID != nil {
+                currentTrackID = nil
+            }
+
+            if currentTrack != nil {
+                currentTrack = nil
+            }
+
+            if currentPosition != nil {
+                currentPosition = nil
+            }
+
+            if maxPosition != nil {
+                maxPosition = nil
+            }
+        }
+    }
     
     func update() throws {
         let isRunning = isMusicRunning()
         setState { musicRunning = isRunning }
         log("musicRunning = \(musicRunning)")
         if !musicRunning {
+            reset()
             return
         }
         
@@ -178,6 +199,7 @@ class Watcher: ObservableObject {
             newState = .‌paused
         case .some("kPSS"):
             newState = .stopped
+            reset()
         case .some("kPSF"), .some("kPSR"):
             newState = .seeking
         default:
@@ -193,6 +215,7 @@ class Watcher: ObservableObject {
         let rawCurrentPosition = try runScript(MUSIC_PLAYER_POSITION_SCRIPT)
         let currentPositionData = rawCurrentPosition.data
         if currentPositionData.count == 4 && currentPositionData.starts(with: [103, 110, 115, 109]) {
+            reset()
             return
         }
         
