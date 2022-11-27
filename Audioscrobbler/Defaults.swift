@@ -24,6 +24,17 @@ class Defaults: ObservableObject {
         url = defaults.string(forKey: "url")
         picture = defaults.data(forKey: "picture")
         privateSession = defaults.bool(forKey: "privateSession")
+        firstRun = defaults.string(forKey: "firstRun") == nil
+    }
+
+    @Published var firstRun: Bool {
+        didSet {
+            if firstRun {
+                defaults.removeObject(forKey: "firstRun")
+            } else {
+                defaults.set("nope", forKey: "firstRun")
+            }
+        }
     }
     
     @Published var token: String? {

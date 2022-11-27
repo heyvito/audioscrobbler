@@ -25,6 +25,7 @@
 		DAC4708F293163C600734C24 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC4708E293163C600734C24 /* Link.swift */; };
 		DAC47091293166B300734C24 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC47090293166B300734C24 /* main.swift */; };
 		DADC426529318B6E00762255 /* View+OnLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC426429318B6E00762255 /* View+OnLoad.swift */; };
+		DAEF0C3F2933A5010083F9AB /* LaunchAtStartup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEF0C3E2933A5010083F9AB /* LaunchAtStartup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		DAC4708E293163C600734C24 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		DAC47090293166B300734C24 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		DADC426429318B6E00762255 /* View+OnLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnLoad.swift"; sourceTree = "<group>"; };
+		DAEF0C3E2933A5010083F9AB /* LaunchAtStartup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtStartup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				DA6859D229302ECA009143B3 /* WebService.swift */,
 				DA8F729829315119007920D3 /* Defaults.swift */,
 				DAC47090293166B300734C24 /* main.swift */,
+				DAEF0C3E2933A5010083F9AB /* LaunchAtStartup.swift */,
 			);
 			path = Audioscrobbler;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				DA6859D1293024B5009143B3 /* LoginView.swift in Sources */,
 				DAC47091293166B300734C24 /* main.swift in Sources */,
 				DA8F729929315119007920D3 /* Defaults.swift in Sources */,
+				DAEF0C3F2933A5010083F9AB /* LaunchAtStartup.swift in Sources */,
 				DA8DE146292FCBDC004DC22E /* Watcher.swift in Sources */,
 				DAC4708929315F0500734C24 /* MainContentView.swift in Sources */,
 				DADC426529318B6E00762255 /* View+OnLoad.swift in Sources */,

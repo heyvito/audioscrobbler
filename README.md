@@ -23,7 +23,7 @@ on their repository](https://github.com/lastfm/lastfm-desktop/blob/9ae84cf4ab204
 ## TODO
 
 - [ ] Sign, Notarize & Provide DMG installer
-- [ ] Start at Login
+- [x] Start at Login
 - [ ] Offline support
 - [ ] Auto-update
 
