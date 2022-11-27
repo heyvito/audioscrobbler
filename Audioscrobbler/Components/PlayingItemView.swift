@@ -57,7 +57,7 @@ struct PlayingItemView: View {
                 .frame(width: 92, height: 92)
             VStack(alignment: .leading, spacing: 3) {
                 Text(track!.name)
-                    .bold()
+                    .font(.system(size: 18, weight: .bold))
                 HStack(spacing: 3) {
                     Text("by")
                     Link(track!.artist, destination: urlFor(artist: track!.artist))

@@ -29,7 +29,7 @@ struct MainView: View {
                     VStack(alignment: .leading) {
                         Text("It's silent here... There's nothing playing.")
                     }
-                }
+                }.padding()
             }
             Divider()
             HStack {
