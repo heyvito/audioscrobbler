@@ -92,20 +92,36 @@ class WebService: ObservableObject {
     }
     
     private func executeRequest(method: String) async throws -> Data { try await executeRequest(method: method, args: [:]) }
+
+    private static let percentEncodingAllowedCharacters: CharacterSet = {
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.insert(" ")
+        allowed.remove("+")
+        allowed.remove("/")
+        allowed.remove("?")
+        allowed.remove("&")
+        return allowed
+    }()
+
+    private static func escape(_ str: String) -> String {
+        return str.replacingOccurrences(of: "\n", with: "\r\n")
+            .addingPercentEncoding(withAllowedCharacters: percentEncodingAllowedCharacters)!
+            .replacingOccurrences(of: " ", with: "+")
+    }
     
     private func executeRequest(method: String, args: [String:String]) async throws -> Data {
         var request = URLRequest(url: baseURL)
         // print("executing \(method) with args: \(args)")
         request.httpMethod = "POST"
         request.setValue("appleMusicAudioscrobbler/1.0", forHTTPHeaderField: "User-Agent")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         var formComponents = URLComponents()
-        formComponents.queryItems = prepareCall(method: method, args: args).map { URLQueryItem(name: $0, value: $1) }
+        formComponents.queryItems = prepareCall(method: method, args: args).map { URLQueryItem(name: $0, value: WebService.escape($1)) }
         request.httpBody = formComponents.query?.data(using: .utf8)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         let httpResponse = response as! HTTPURLResponse
-        if httpResponse.statusCode > 400 {
+        if httpResponse.statusCode >= 400 {
             if httpResponse.value(forHTTPHeaderField: "Content-Type")?.hasPrefix("application/json") ?? false {
                 let apiError: APIError
                 do {
@@ -136,9 +152,7 @@ class WebService: ObservableObject {
     private func decodeJSON<T>(_ data: Data) throws -> T where T: Decodable {
         return try JSONDecoder().decode(T.self, from: data)
     }
-    
-    
-    
+
     func prepareAuthenticationToken() async throws -> (String, URL) {
         let data = try await executeRequest(method: "auth.gettoken")
         let json: [String: String] = try parseJSON(data)
