@@ -11,6 +11,7 @@
 		DA6859CE29300A27009143B3 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6859CD29300A27009143B3 /* HeaderView.swift */; };
 		DA6859D1293024B5009143B3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6859D0293024B5009143B3 /* LoginView.swift */; };
 		DA6859D329302ECA009143B3 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6859D229302ECA009143B3 /* WebService.swift */; };
+		DA7B0AA5297B392100B522D6 /* OSAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7B0AA4297B392000B522D6 /* OSAKit.framework */; };
 		DA8DE139292FC575004DC22E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8DE138292FC575004DC22E /* MainView.swift */; };
 		DA8DE13B292FC577004DC22E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8DE13A292FC577004DC22E /* Assets.xcassets */; };
 		DA8DE13E292FC577004DC22E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8DE13D292FC577004DC22E /* Preview Assets.xcassets */; };
@@ -34,6 +35,7 @@
 		DA6859CF2930242E009143B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DA6859D0293024B5009143B3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DA6859D229302ECA009143B3 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		DA7B0AA4297B392000B522D6 /* OSAKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSAKit.framework; path = System/Library/Frameworks/OSAKit.framework; sourceTree = SDKROOT; };
 		DA8DE133292FC575004DC22E /* Audioscrobbler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audioscrobbler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8DE138292FC575004DC22E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		DA8DE13A292FC577004DC22E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7B0AA5297B392100B522D6 /* OSAKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,11 +80,20 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		DA7B0AA3297B392000B522D6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA7B0AA4297B392000B522D6 /* OSAKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DA8DE12A292FC575004DC22E = {
 			isa = PBXGroup;
 			children = (
 				DA8DE135292FC575004DC22E /* Audioscrobbler */,
 				DA8DE134292FC575004DC22E /* Products */,
+				DA7B0AA3297B392000B522D6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,7 +180,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					DA8DE132292FC575004DC22E = {
 						CreatedOnToolsVersion = 14.1;
@@ -266,6 +278,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -326,6 +339,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -352,9 +366,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Audioscrobbler/Audioscrobbler.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Audioscrobbler/Preview Content\"";
 				DEVELOPMENT_TEAM = 7GEB3UCDV7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -384,9 +400,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Audioscrobbler/Audioscrobbler.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Audioscrobbler/Preview Content\"";
 				DEVELOPMENT_TEAM = 7GEB3UCDV7;
 				ENABLE_HARDENED_RUNTIME = YES;

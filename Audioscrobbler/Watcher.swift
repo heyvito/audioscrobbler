@@ -7,6 +7,7 @@
 
 import Foundation
 import AppKit
+import OSAKit
 
 enum PlayerState {
     case unknown
@@ -123,31 +124,45 @@ class Watcher: ObservableObject {
     }
 
 
-    func runScript(_ script: String) throws -> NSAppleEventDescriptor {
-        var error: NSDictionary?
-        guard let scriptObject = NSAppleScript(source: script) else {
-            throw ScriptError.InitializationError
+    func runScript<T>(_ script: String) throws -> T {
+        try autoreleasepool {
+            var error: NSDictionary?
+            let scriptObject = OSAScript(source: script)
+            let output = scriptObject.executeAndReturnError(&error)
+            if error != nil {
+                throw ScriptError.InternalError(String(describing: error))
+            }
+
+            switch (T.self) {
+            case is String.Type:
+                return "\(output!.stringValue!)" as! T
+            case is Bool.Type:
+                return output!.booleanValue as! T
+            case is Int32.Type:
+                return output!.int32Value as! T
+            case is Double.Type:
+                return output!.doubleValue as! T
+            case is Data.Type:
+                let oneData = output!.data
+                return NSData(data: oneData) as! T
+            default:
+                throw ScriptError.InitializationError
+            }
         }
-        
-        let output = scriptObject.executeAndReturnError(&error)
-        if error != nil {
-            throw ScriptError.InternalError(String(describing: error))
-        }
-        return output
     }
     
     func getPlayerPosition() throws -> Double {
-        return try runScript(MUSIC_PLAYER_POSITION_SCRIPT).doubleValue
+        return try runScript(MUSIC_PLAYER_POSITION_SCRIPT)
     }
     
     func getPlayerTrack() throws -> Track {
-        let name = try runScript(MUSIC_TRACK_NAME_SCRIPT).stringValue!
-        let artist = try runScript(MUSIC_TRACK_ARTIST_SCRIPT).stringValue!
-        let album = try runScript(MUSIC_TRACK_ALBUM_SCRIPT).stringValue!
-        let artwork = try? runScript(MUSIC_TRACK_ARTWORK_SCRIPT).data
-        let length = try runScript(MUSIC_TRACK_DURATION_SCRIPT).doubleValue
-        let year = try runScript(MUSIC_TRACK_YEAR_SCRIPT).int32Value
-        let loved = try runScript(MUSIC_TRACK_LOVED_SCRIPT).booleanValue
+        let name: String = try runScript(MUSIC_TRACK_NAME_SCRIPT)
+        let artist: String = try runScript(MUSIC_TRACK_ARTIST_SCRIPT)
+        let album: String = try runScript(MUSIC_TRACK_ALBUM_SCRIPT)
+        let artwork: Data = try runScript(MUSIC_TRACK_ARTWORK_SCRIPT)
+        let length: Double = try runScript(MUSIC_TRACK_DURATION_SCRIPT)
+        let year: Int32 = try runScript(MUSIC_TRACK_YEAR_SCRIPT)
+        let loved: Bool = try runScript(MUSIC_TRACK_LOVED_SCRIPT)
     
         return Track.init(artist: artist, album: album, name: name, year: year, length: length, artwork: artwork, loved: loved, startedAt: Int32((NSDate().timeIntervalSince1970 - (currentPosition ?? 0))))
     }
@@ -192,15 +207,16 @@ class Watcher: ObservableObject {
         }
         
         let newState: PlayerState
-        switch try runScript(MUSIC_STATE_SCRIPT).stringValue {
-        case .some("kPSP"):
+        let stringState: String = try runScript(MUSIC_STATE_SCRIPT)
+        switch stringState {
+        case "kPSP":
             newState = .‌playing
-        case .some("kPSp"):
+        case "kPSp":
             newState = .‌paused
-        case .some("kPSS"):
+        case "kPSS":
             newState = .stopped
             reset()
-        case .some("kPSF"), .some("kPSR"):
+        case "kPSF", "kPSR":
             newState = .seeking
         default:
             newState = .unknown
@@ -212,22 +228,21 @@ class Watcher: ObservableObject {
 
         log("playerState = \(playerState)")
         
-        let rawCurrentPosition = try runScript(MUSIC_PLAYER_POSITION_SCRIPT)
-        let currentPositionData = rawCurrentPosition.data
-        if currentPositionData.count == 4 && currentPositionData.starts(with: [103, 110, 115, 109]) {
+        let rawCurrentPosition: Data = try runScript(MUSIC_PLAYER_POSITION_SCRIPT)
+        if rawCurrentPosition.count == 4 && rawCurrentPosition.starts(with: [103, 110, 115, 109]) {
             reset()
             return
         }
-        
-        setState { currentPosition = rawCurrentPosition.doubleValue }
+
+        setState { currentPosition = rawCurrentPosition.withUnsafeBytes { $0.load(as: Double.self) } }
         log("currentPosition = \(currentPosition!)")
         if maxPosition == nil || currentPosition! > maxPosition! {
             setState { maxPosition = currentPosition }
         }
 
-        let trackID = try runScript(MUSIC_TRACK_DATABASE_ID_SCRIPT).int32Value
+        let trackID: Int32 = try runScript(MUSIC_TRACK_DATABASE_ID_SCRIPT)
         
-        guard self.currentTrackID == nil || self.currentTrackID! != trackID else { return }
+        guard self.currentTrackID != trackID else { return }
         
         // At this point, the track has changed. Is our max position enough to scrobble it?
         if let maxPos = maxPosition {
