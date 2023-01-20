@@ -11,6 +11,10 @@ they are not in your library).
 
 ## Installing
 
+Signed and Notarized version is available on the [Releases](https://github.com/heyvito/audioscrobbler/releases) page.
+
+## Building
+
 1. Clone this repository
 2. Open `Audioscrobbler.xcodeproj`, and build it.
 3. Profit. :)
@@ -22,7 +26,7 @@ on their repository](https://github.com/lastfm/lastfm-desktop/blob/9ae84cf4ab204
 
 ## TODO
 
-- [ ] Sign, Notarize & Provide DMG installer
+- [x] Sign, Notarize & Provide DMG installer
 - [x] Start at Login
 - [ ] Offline support
 - [ ] Auto-update
