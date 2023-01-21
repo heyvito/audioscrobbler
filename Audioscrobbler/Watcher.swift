@@ -125,7 +125,24 @@ class Watcher: ObservableObject {
 
 
     func runScript<T>(_ script: String) throws -> T {
-        try autoreleasepool {
+        if !isMusicRunning() {
+            switch (T.self) {
+            case is String.Type:
+                return "" as! T
+            case is Bool.Type:
+                return false as! T
+            case is Int32.Type:
+                return 0 as! T
+            case is Double.Type:
+                return 0.0 as! T
+            case is Data.Type:
+                return Data() as! T
+            default:
+                throw ScriptError.InitializationError
+            }
+        }
+
+        return try autoreleasepool {
             var error: NSDictionary?
             let scriptObject = OSAScript(source: script)
             let output = scriptObject.executeAndReturnError(&error)
