@@ -24,6 +24,11 @@ Signed and Notarized version is available on the [Releases](https://github.com/h
 Yep. I know! There's not much one can do with the API, and even Last.fm's tokens are [available
 on their repository](https://github.com/lastfm/lastfm-desktop/blob/9ae84cf4ab204a92e6953abe14026df70c140519/lib/unicorn/UnicornCoreApplication.cpp#L58)
 
+## Known Issues
+
+- Audioscrobbler has a huge memory leak caused by one of Apple's API. There is no known fix at this time, and the issue has been reported multiple times through Feedback Assistant. I'm in contact with Apple engineers to see if we can sort this out.
+- Music.app may restart immediately after quiting. I intend to fix this in the near future.
+
 ## TODO
 
 - [x] Sign, Notarize & Provide DMG installer
