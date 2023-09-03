@@ -26,7 +26,6 @@ on their repository](https://github.com/lastfm/lastfm-desktop/blob/9ae84cf4ab204
 
 ## Known Issues
 
-- Audioscrobbler has a huge memory leak caused by one of Apple's API. There is no known fix at this time, and the issue has been reported multiple times through Feedback Assistant. I'm in contact with Apple engineers to see if we can sort this out.
 - Music.app may restart immediately after quiting. I intend to fix this in the near future.
 
 ## TODO
