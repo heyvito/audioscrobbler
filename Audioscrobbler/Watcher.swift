@@ -94,6 +94,7 @@ class Watcher: ObservableObject {
     @Published var musicRunning: Bool = false
     @Published var playerState: PlayerState = .unknown
     @Published var running: Bool = true
+    var internalTimer: Timer?
     var debug = false
     var onTrackChanged: ((Track) -> ())? = nil
     var onScrobbleWanted: ((Track) -> ())? = nil
@@ -103,15 +104,17 @@ class Watcher: ObservableObject {
     }
     
     func start() {
-        Task {
-            while running {
-                try? update()
-                sleep(1)
+        internalTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            Task {
+                try? self.update()
             }
         }
     }
     
-    func stop() { running = false }
+    func stop() {
+        running = false
+        internalTimer?.invalidate()
+    }
     
     func log(_ what: String) {
         guard debug else { return }
@@ -189,8 +192,12 @@ class Watcher: ObservableObject {
     }
 
     func setState(_ changes: () -> ()) {
-        DispatchQueue.main.sync {
+        if Thread.isMainThread {
             changes()
+        } else {
+            DispatchQueue.main.sync {
+                changes()
+            }
         }
     }
 
